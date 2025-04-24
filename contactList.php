@@ -28,9 +28,12 @@ class ContactList
    }
    public function search($keyWord)
    {
-      foreach ($this->contacts as $contact) {
-         $contact->searchContact($keyWord);
+      if (trim($keyWord) !== "") {
+         foreach ($this->contacts as $contact) {
+            $contact->searchContact($keyWord);
+         }
       }
+      
    }
    public function addContact(Contact $contact)
    {
@@ -174,16 +177,16 @@ $contactList01->addContact(new PersonContact([
    "phoneNumber" => "069123456"
 ]))->addContact(new PersonContact([
    "name" => "Milos",
-   "email" => "milos@gmail.com",
+   "email" => "misa@gmail.com",
    "phoneNumber" => "066458741"
 ]))->addContact(new CompanyContact([
    "name" => "Development",
-   "email" => "development@gmail.com",
+   "email" => "dev@gmail.com",
    "address" => "Beogradska 33"
 ]))->addContact(new CompanyContact([
    "name" => "Programming",
-   "email" => "programming@gmail.com",
+   "email" => "progm@gmail.com",
    "address" => "Pancevacka 44"
 ]));
 $contactList01->listContact();
-$contactList01->search("milos");
+$contactList01->search("program");
