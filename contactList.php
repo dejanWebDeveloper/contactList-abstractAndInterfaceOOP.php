@@ -88,11 +88,11 @@ abstract class ContactModel
    public function searchContact($keyWord)
    {
       if (stripos($this->getName(), $keyWord) !== false) {
-         echo "The required value for name is: " . $keyWord . "<br>";
+         echo $keyWord ." has an overlap with the name value <br>";
          echo $this->displayContact();
       }
       if (stripos($this->getEmail(), $keyWord) !== false) {
-         echo "The required value for email is: " . $keyWord . "<br>";
+         echo $keyWord ." has an overlap with the email value <br>";
          echo $this->displayContact();
       }
    }
@@ -103,7 +103,7 @@ class PersonContact extends ContactModel implements Contact
    protected $phoneNumber;
    public function getPhoneNumber()
    {
-      return "0" . $this->phoneNumber;
+      return $this->phoneNumber;
    }
    public function setPhoneNumber(string $phoneNumber)
    {
@@ -128,7 +128,40 @@ class PersonContact extends ContactModel implements Contact
    {
       parent::searchContact($keyWord);
       if (stripos($this->getPhoneNumber(), $keyWord) !== false) {
-         echo "The required value for phone number is: " . $keyWord . "<br>";
+         echo $keyWord ." has an overlap with the phone number value <br>";
+         echo $this->displayContact();
+      }
+   }
+}
+
+class CompanyContact extends ContactModel implements Contact
+{
+   protected $address;
+   public function setAddress(string $address){
+      if (trim($address) === ""){
+         die("❌ Address field can't be empty.");
+      }
+      $this->address = $address;
+   }
+   public function getAddress(){
+      return $this->address;
+   }
+   public function __construct(array $data){
+      parent::__construct($data);
+      if (isset($data["address"])) {
+         $this->setAddress($data["address"]);
+      }
+   }   
+   public function displayContact()
+   {
+      parent::displayContact();
+      echo "Address: " . $this->getAddress() .  "<br><hr>";
+   }
+   public function searchContact($keyWord)
+   {
+      parent::searchContact($keyWord);
+      if (stripos($this->getAddress(), $keyWord) !== false) {
+         echo $keyWord ." has an overlap with the address value <br>";
          echo $this->displayContact();
       }
    }
@@ -143,6 +176,14 @@ $contactList01->addContact(new PersonContact([
    "name" => "Milos",
    "email" => "milos@gmail.com",
    "phoneNumber" => "066458741"
+]))->addContact(new CompanyContact([
+   "name" => "Development",
+   "email" => "development@gmail.com",
+   "address" => "Beogradska 33"
+]))->addContact(new CompanyContact([
+   "name" => "Programming",
+   "email" => "programming@gmail.com",
+   "address" => "Pancevacka 44"
 ]));
 $contactList01->listContact();
 $contactList01->search("milos");
