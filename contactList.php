@@ -169,24 +169,3 @@ class CompanyContact extends ContactModel implements Contact
       }
    }
 }
-
-$contactList01 = new ContactList();
-$contactList01->addContact(new PersonContact([
-   "name" => "Petar",
-   "email" => "petar@gmail.com",
-   "phoneNumber" => "069123456"
-]))->addContact(new PersonContact([
-   "name" => "Milos",
-   "email" => "misa@gmail.com",
-   "phoneNumber" => "066458741"
-]))->addContact(new CompanyContact([
-   "name" => "Development",
-   "email" => "dev@gmail.com",
-   "address" => "Beogradska 33"
-]))->addContact(new CompanyContact([
-   "name" => "Programming",
-   "email" => "progm@gmail.com",
-   "address" => "Pancevacka 44"
-]));
-$contactList01->listContact();
-$contactList01->search("program");
