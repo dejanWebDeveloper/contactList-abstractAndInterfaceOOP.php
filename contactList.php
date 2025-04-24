@@ -35,17 +35,28 @@ class ContactList
       }
       
    }
-   public function addContact(Contact $contact)
-   {
-      $this->contacts[] = $contact;
-      return $this;
-   }
+   /**
+    * adding a new contact if it doesn't already exist in the contact list
+    * @param Contact $contact
+    * @return static
+    */
+    public function addContact(Contact $contact)
+    {
+        foreach ($this->contacts as $oldContact) {
+            if ($oldContact->getEmail() === $contact->getEmail()) {
+                return $this;
+            }
+        }
+        $this->contacts[] = $contact;
+        return $this;
+    }
 }
 
 interface Contact
 {
    public function displayContact();
    public function searchContact($keyWord);
+   public function getEmail();
 }
 
 abstract class ContactModel
@@ -169,3 +180,15 @@ class CompanyContact extends ContactModel implements Contact
       }
    }
 }
+
+$contactList01 = new ContactList();
+$contactList01->addContact(new PersonContact([
+   "name"=> "Dejan",
+   "email"=> "deki@gmail.com",
+   "phoneNumber"=> "066545545",
+]))->addContact(new PersonContact([
+   "name"=> "Dejan",
+   "email"=> "deki@gmail.com",
+   "phoneNumber"=> "066545545",
+]));
+$contactList01->listContact();
